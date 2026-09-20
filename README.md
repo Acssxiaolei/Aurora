@@ -18,7 +18,12 @@
 
 ## 下载
 
-前往 [Releases](../../releases) 下载最新版 `Aurora.exe`，双击即用。
+前往 [Releases](../../releases) 下载对应版本：
+
+| 版本 | 文件名 | 适用系统 |
+|------|--------|---------|
+| **64位**（推荐） | `Aurora-x64.exe` | Windows 10 / 11 64位 |
+| **32位** | `Aurora-x86.exe` | Windows 7 / 8 / 10 / 11 32位 |
 
 > Windows SmartScreen 提示未知发布者时，点"更多信息"→"仍要运行"。
 
@@ -49,9 +54,9 @@ client/
 ├── link_parser.py       # 代理链接解析（vmess/vless/trojan/ss）
 ├── core_adapter.py       # Xray 内核配置生成与进程管理
 ├── proxy_manager.py      # Windows 系统代理自动开关
-├── autostart.py          # 开机自启动注册表管理
-├── app_config.py         # 本地 JSON 配置读写
-├── aurora.png            # 应用图标
+├── autostart.py         # 开机自启动注册表管理
+├── app_config.py        # 本地 JSON 配置读写
+├── aurora.png           # 应用图标
 ├── aurora.ico
 └── core/xray/           # Xray 内核（通过 Release 分发，不在 repo 里）
 ```
@@ -66,17 +71,24 @@ pip install requests pillow pyinstaller
 cd client
 python main.py
 
-# 打包单文件 EXE（需自行下载 Xray-core 到 client/core/xray/）
-pyinstaller --onefile --noconsole --name Aurora --icon aurora.ico \
+# 打包 64 位单文件 EXE（需自行下载 Xray-core 64位到 client/core/xray/）
+pyinstaller --onefile --noconsole --name Aurora-x64 --icon aurora.ico \
   --add-data "core/xray/xray.exe;." \
   --add-data "core/xray/geoip.dat;." \
   --add-data "core/xray/geosite.dat;." \
+  main.py
+
+# 打包 32 位（兼容 Win7，需 Python 3.8 32位 + Xray 32位）
+pyinstaller --onefile --noconsole --name Aurora-x86 --icon aurora.ico \
+  --add-data "core/xray32/xray.exe;." \
+  --add-data "core/xray32/geoip.dat;." \
+  --add-data "core/xray32/geosite.dat;." \
   main.py
 ```
 
 ## 多平台支持
 
-- [x] **Windows** — 当前版本
+- [x] **Windows** — 当前版本（64位 + 32位）
 - [ ] **Android** — 开发中，敬请期待
 - [ ] **macOS** — 规划中
 - [ ] **iOS** — 规划中
@@ -88,6 +100,15 @@ pyinstaller --onefile --noconsole --name Aurora --icon aurora.ico \
 | SSPanel-Uim | 表单 + Cookie | /user 页面解析 | /user/checkin | /sub/{token}/v2ray |
 | V2Board | JWT API | /api/v1/user/info | /api/v1/user/checkin | /api/v1/user/getSubscribe |
 | Xboard | JWT API（同 V2Board） | 同上 | 同上 | 同上 |
+
+## 系统兼容性
+
+| 系统 | 64位版 | 32位版 |
+|------|--------|--------|
+| Windows 11 | ✅ | ✅ |
+| Windows 10 | ✅ | ✅ |
+| Windows 8 | ❌ | ✅ |
+| Windows 7 | ❌ | ✅ |
 
 ## 协议
 
