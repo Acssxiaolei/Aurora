@@ -1,0 +1,27 @@
+# 用户数据（敏感，不上传）
+config/
+
+# 构建产物
+build/
+dist/
+*.spec
+*.exe
+*.log
+crash.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Xray 内核（通过 GitHub Release 分发，不进 repo）
+client/core/xray/xray.exe
+client/core/xray/v2ray.exe
+client/core/xray/*.dll
+client/core/xray/geoip.dat
+client/core/xray/geosite.dat
+
+# 参考资料（本地调研用，不公开）
+reference/
